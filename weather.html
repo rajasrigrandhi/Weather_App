@@ -1,0 +1,80 @@
+<link href="weather.css" rel="stylesheet">
+<div class="main">
+    <div class="submain">
+        <input type="text" placeholder="Enter City">
+        <button><img src="search.jpeg" ></button>
+    </div>
+    <div class="weather">
+        <img src="cloudy.jpeg" class="weather_icon">
+        <h1 class="temp">22°C</h1>
+        <h2 class="city">New York</h2>
+        <h3 class="type">Clouds</h3>
+        <div class="details">
+            <div class="mid">
+                <div>
+                <img src="humidity.jpeg" alt=""></div>
+                <div>
+                <p class="humidity">28%</p>
+                <h2>Humidity</h2>
+            </div>
+            </div>
+            <div class="mid">
+                <div>
+                <img src="windspeed.jpeg" alt=""></div>
+                <div>
+                <p class="wind">2 km/h</p>
+                <h2>Windspeed</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  const apiKey="12a15334ee2ff243c9bf080ae0666f77"
+const apiUrl="https://api.openweathermap.org/data/2.5/weather?&units=metric&q="
+const searchInp=document.querySelector('.submain input')
+const searchBtn=document.querySelector('.submain button')
+const weatherImg=document.querySelector('.weather_icon')
+
+async function fun(a){
+    const res=await fetch(apiUrl+a+ `&appid=${apiKey}`)
+    var data=await res.json()
+    console.log(data)
+    document.querySelector('.city').innerHTML=data.name
+    document.querySelector('.temp').innerHTML=Math.floor(data.main.temp)+'°c'
+    document.querySelector('.type').innerHTML=data.weather[0].main
+    document.querySelector('.humidity').innerHTML=data.main.humidity+"%"
+    document.querySelector('.wind').innerHTML=data.wind.speed+"km/h"
+   
+    if(data.weather[0].main == "Haze"){
+        weatherImg.src="sun.jpeg"
+    }
+    else if(data.weather[0].main == "Clouds"){
+        weatherImg.src="cloudy.jpeg"
+    }
+    else if(data.weather[0].main == "Mist"){
+        weatherImg.src="mist.jpeg"
+    }
+    else if(data.weather[0].main == "Rain"){
+        weatherImg.src="rain.jpeg"
+    }else if(data.weather[0].main == "Drizzle"){
+        weatherImg.src="drizzle.jpeg"
+    }
+    else if(data.weather[0].main == "Snow"){
+        weatherImg.src="snow.jpeg"
+    }
+    else if(data.weather[0].main == "Clear"){
+        weatherImg.src="clear.jpeg"
+    }
+ 
+}
+searchBtn.addEventListener('click',()=>{
+    fun(searchInp.value)
+document.querySelector(".weather").style.display="block"
+
+})
+
+
+  
+</script>
